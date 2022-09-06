@@ -1,3 +1,3 @@
-# CyberArk-Health-Check-Windows-servers
-CyberArk Health Check Windows servers and Linux servers
+# CyberArk Health Check Automation scripts
+CyberArk Health Check Windows PVWA servers, CPM servers, PSM servers vault servers and PSMP servers
 
