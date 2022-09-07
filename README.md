@@ -1,6 +1,8 @@
 # CyberArk Health Check Automation scripts
 CyberArk Health Check PVWA servers, CPM servers, PSM servers vault servers and PSMP servers.
-This Collecect CPU, Storage, Logs for easy Admin reporting.
+This Collecect CPU, Storage, RAM, Logs for easy Admin reporting.
+
+It is not pretty it is functional.
 
 
 Tuesday, September 6, 2022 3:29:04 PM
