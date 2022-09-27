@@ -18,7 +18,7 @@ Add-Content "C:\PowerShell\CyberARk Services\output.txt" 'Disk Free Space'
 Get-CimInstance -ComputerName <PVWA02> -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID,@{'Name' = 'FreeSpace (GB)'; Expression= { [int]($_.FreeSpace / 1GB) }} | Out-File -FilePath "C:\PowerShell\CyberARk Services\output.txt" -Append
 Add-Content "C:\PowerShell\CyberARk Services\output.txt" 'RAM'
 Get-WmiObject -Class win32_operatingsystem -ComputerName <PVWA02> | ft @{Name="Total Visible Memory Size (GB)";e={[math]::truncate($_.TotalVisibleMemorySize /1MB)}}, @{Name="Free Physical Memory (GB)";e={[math]::truncate($_.FreePhysicalMemory /1MB)}} -AutoSize  | Out-File -FilePath "C:\PowerShell\CyberARk Services\output.txt" -Append
-Add-Content "C:\PowerShell\CyberARk Services\output.txt" 'CMP'
+Add-Content "C:\PowerShell\CyberARk Services\output.txt" 'CPM'
 Add-Content "C:\PowerShell\CyberARk Services\output.txt" '<CPM01>'
 Add-Content "C:\PowerShell\CyberARk Services\output.txt" 'CyberArk Services'
 Get-Service -ComputerName <CPM01> -Name *Ark* | Out-File -FilePath "C:\PowerShell\CyberARk Services\output.txt" -Append
