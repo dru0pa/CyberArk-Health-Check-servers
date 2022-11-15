@@ -2,7 +2,7 @@
 #CyberArk health Check of PSMP servers PSM for SSH
 ######
 # file path is /root/ServerCheck.sh
-#add to cron job
+#add to cron job to automate
 #crontab -e
 #0 5 * * mon  /root/ServerCheck.sh
 #service cron reload
