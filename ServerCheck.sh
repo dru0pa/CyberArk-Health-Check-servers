@@ -1,29 +1,29 @@
 #!/bin/bash
-#CyberArk health Check of PSMP servers PSM for SSH
-######
-# file path is /root/ServerCheck.sh
-#add to cron job to automate
-#crontab -e
-#0 5 * * mon  /root/ServerCheck.sh
-#service cron reload
-#systemctl start crond.service or systemctl restart crond.service
-######
-var=$(date +"%FORMAT_STRING")
-now=$(date +"%H_%M_%m_%d_%Y")
-#printf "%s\n" $now
+# CyberArk health check of PSMP servers for SSH
+# File path: /root/ServerCheck.sh
+# Add to cron job to automate:
+# crontab -e
+# 0 5 * * mon /root/ServerCheck.sh
+# service cron reload
+# systemctl start crond.service or systemctl restart crond.service   
+
+# Get the current time and date
 today=$(date +"%H:%M %Y-%m-%d")
 
-echo "Time and Date of check ${today}" > servercheck.txt
-echo "Hostname of Server is" >> servercheck.txt
-hostname >> servercheck.txt
-echo "CyberArk Services"> service.txt
-service psmpsrv status >> service.txt
-echo "Disk Usage" > disk.txt
-df -h >> disk.txt
-echo "CPU Usage" > top.txt
-top -b -n 1 >> top.txt
-head  -n 6  top.txt > top.txt.tmp && mv -f top.txt.tmp top.txt
-#join files
-cat service.txt top.txt disk.txt >> servercheck.txt
-#Clean up
-rm -f service.txt top.txt disk.txt
+# Create the output file
+outfile="servercheck_$today.txt"  # Include timestamp in filename
+echo "Time and Date of check: ${today}" > "$outfile"
+echo "Hostname of Server:" >> "$outfile"
+hostname >> "$outfile"
+
+# Check CyberArk PSMP service status
+echo "CyberArk PSMP Service Status:" >> "$outfile"
+systemctl status psmpsrv --no-pager >> "$outfile"  # Use systemctl for service status
+
+# Check disk usage
+echo "Disk Usage:" >> "$outfile"
+df -h >> "$outfile"
+
+# Check CPU usage
+echo "CPU Usage:" >> "$outfile"
+top -b -n 1 | head -n 6 >> "$outfile" 
