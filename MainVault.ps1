@@ -11,6 +11,10 @@ Clear-Content -Path $outputFile
 # Get the current date and time
 Get-Date | Out-File -FilePath $outputFile
 
+# Add CyberArk Services information
+Add-Content -Path $outputFile -Value 'CyberArk Services'
+Get-Service *Ark* | Out-File -FilePath $outputFile -Append
+
 # Add CPU LoadPercentage
 Add-Content -Path $outputFile -Value 'CPU LoadPercentage'
 Get-CimInstance win32_processor | Measure-Object -Property LoadPercentage -Average | Out-File -FilePath $outputFile -Append
