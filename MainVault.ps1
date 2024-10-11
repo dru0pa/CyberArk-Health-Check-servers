@@ -11,6 +11,9 @@ Clear-Content -Path $outputFile
 # Get the current date and time
 Get-Date | Out-File -FilePath $outputFile
 
+# Add server name
+Add-Content -Path $outputFile -Value 'Vault01'
+
 # Add CyberArk Services information
 Add-Content -Path $outputFile -Value 'CyberArk Services'
 Get-Service *Ark* | Out-File -FilePath $outputFile -Append
