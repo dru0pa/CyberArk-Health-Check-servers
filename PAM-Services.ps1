@@ -1,5 +1,9 @@
 # Define the output file path
-$outputFile = "C:\PowerShell\CyberARk Services\output.txt"
+$outputFile = "C:\PowerShell\CyberArk Services\output.txt"
+$outputDir = Split-Path $outputFile -Parent
+if (!(Test-Path $outputDir)) {
+    New-Item -ItemType Directory -Path $outputDir
+}
 
 # Define an array of server objects
 $servers = @(
