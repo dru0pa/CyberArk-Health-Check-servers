@@ -1,13 +1,68 @@
-Get-Date| Out-File -FilePath "C:\PowerShell\CyberArk Services\output.txt"
-Add-Content "C:\PowerShell\CyberArk Services\output.txt" 'DR'
-Add-Content "C:\PowerShell\CyberARk Services\output.txt" 'CyberArk Services'
-Get-Service *Ark* | Out-File -FilePath "C:\PowerShell\CyberArk Services\output.txt" -Append
-Add-Content "C:\PowerShell\CyberARk Services\output.txt" 'CPU LoadPercentage'
-Get-CimInstance win32_processor | Measure-Object -Property LoadPercentage -Average | Out-File -FilePath "C:\PowerShell\CyberArk Services\output.txt" -Append
-Add-Content "C:\PowerShell\CyberARk Services\output.txt" 'Disk Free Space'
-Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID,@{'Name' = 'FreeSpace (GB)'; Expression= { [int]($_.FreeSpace / 1GB) }} | Out-File -FilePath "C:\PowerShell\CyberArk Services\output.txt" -Append
-Add-Content "C:\PowerShell\CyberARk Services\output.txt" 'RAM'
-Get-WmiObject -Class win32_operatingsystem | ft @{Name="Total Visible Memory Size (GB)";e={[math]::truncate($_.TotalVisibleMemorySize /1MB)}}, @{Name="Free Physical Memory (GB)";e={[math]::truncate($_.FreePhysicalMemory /1MB)}} -AutoSize  | Out-File -FilePath "C:\PowerShell\CyberARk Services\output.txt" -Append
+# Define the output file path
+$outputFile = "C:\PowerShell\CyberArk Services\output.txt"
+$outputDir = Split-Path $outputFile -Parent
+if (!(Test-Path $outputDir)) {
+    New-Item -ItemType Directory -Path $outputDir
+    }
 
-Add-Content "C:\PowerShell\CyberArk Services\output.txt" 'padr.log'
-Get-content -tail 10 "C:\Program Files (x86)\PrivateArk\PADR\Logs\padr.log" | Out-File -FilePath "C:\PowerShell\CyberArk Services\output.txt" -Append
+# Clear the output file
+Clear-Content -Path $outputFile
+
+# Get the current date and time
+Get-Date | Out-File -FilePath $outputFile
+
+# Add server name
+Add-Content -Path $outputFile -Value 'DR'
+
+# Add CyberArk Services information
+Add-Content -Path $outputFile -Value 'CyberArk Services'
+Get-Service *Ark* | Out-File -FilePath $outputFile -Append
+
+# Add CPU LoadPercentage
+Add-Content -Path $outputFile -Value 'CPU LoadPercentage'
+Get-CimInstance win32_processor | Measure-Object -Property LoadPercentage -Average | Out-File -FilePath $outputFile -Append
+
+# Add Disk Free Space
+Add-Content -Path $outputFile -Value 'Disk Free Space'
+Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID, @{Name = 'FreeSpace (GB)'; Expression = { [int]($_.FreeSpace / 1GB) }} | Out-File -FilePath $outputFile -Append
+
+# Add RAM information (using Get-CimInstance)
+Add-Content -Path $outputFile -Value 'RAM'
+Get-CimInstance -ClassName Win32_OperatingSystem |
+Select-Object -Property @{Name="Total Visible Memory Size (GB)";e={[math]::truncate($_.TotalVisibleMemorySize /1MB)}}, @{Name="Free Physical Memory (GB)";e={[math]::truncate($_.FreePhysicalMemory /1MB)}} |
+Out-File -FilePath $outputFile -Append
+
+# Add padr.log content to the output file
+Add-Content -Path $outputFile -Value 'padr.log'
+Get-content -Tail 10 "C:\Program Files (x86)\PrivateArk\PADR\Logs\padr.log" | Out-File -FilePath $outputFile -Append
+
+# Clear the output file
+Clear-Content -Path $outputFile
+
+# Get the current date and time
+Get-Date | Out-File -FilePath $outputFile
+
+# Add server name
+Add-Content -Path $outputFile -Value 'DR'
+
+# Add CyberArk Services information
+Add-Content -Path $outputFile -Value 'CyberArk Services'
+Get-Service *Ark* | Out-File -FilePath $outputFile -Append
+
+# Add CPU LoadPercentage
+Add-Content -Path $outputFile -Value 'CPU LoadPercentage'
+Get-CimInstance win32_processor | Measure-Object -Property LoadPercentage -Average | Out-File -FilePath $outputFile -Append
+
+# Add Disk Free Space
+Add-Content -Path $outputFile -Value 'Disk Free Space'
+Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID, @{Name = 'FreeSpace (GB)'; Expression = { [int]($_.FreeSpace / 1GB) }} | Out-File -FilePath $outputFile -Append
+
+# Add RAM information (using Get-CimInstance)
+Add-Content -Path $outputFile -Value 'RAM'
+Get-CimInstance -ClassName Win32_OperatingSystem |
+Select-Object -Property @{Name="Total Visible Memory Size (GB)";e={[math]::truncate($_.TotalVisibleMemorySize /1MB)}}, @{Name="Free Physical Memory (GB)";e={[math]::truncate($_.FreePhysicalMemory /1MB)}} |
+Out-File -FilePath $outputFile -Append
+
+# Add padr.log content to the output file
+Add-Content -Path $outputFile -Value 'padr.log'
+Get-content -Tail 10 "C:\Program Files (x86)\PrivateArk\PADR\Logs\padr.log" | Out-File -FilePath $outputFile -Append
